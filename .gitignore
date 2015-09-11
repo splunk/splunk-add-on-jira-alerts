@@ -1,0 +1,28 @@
+# OS X
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Python
+*.pyo
+*.pyc
+
+# UI test automation generated files
+test/unit-test/bin/Debug
+test/unit-test/obj/Debug
+test/warum-conducive-test.v12.suo
+
+local
+# (Normally we'd exclude the entire "metadata" directory.
+#  However we must preserve metadata/default.meta so that eventgen works.)
+local.meta
+
+# Built files
+*.spl
+
+# Unknown
+build
+.build
+*.orig.pre41
+
