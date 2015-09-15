@@ -25,7 +25,7 @@ def validate_jira_settings(jira_settings):
 
 def update_jira_settings(jira_settings, server_uri, session_key):
     r = requests.post(
-        url=server_uri+'/servicesNS/nobody/jira_alerts/alerts/alert_actions/jira?output_mode=json',
+        url=server_uri+'/servicesNS/nobody/splunk-add-on-jira-alerts/alerts/alert_actions/jira?output_mode=json',
         data={
             'param.jira_url': jira_settings.get('jira_url'),
             'param.jira_username': jira_settings.get('jira_username'),
@@ -36,7 +36,7 @@ def update_jira_settings(jira_settings, server_uri, session_key):
         headers=splunkd_auth_header(session_key),
         verify=False).json()
     requests.post(
-        url=server_uri + '/servicesNS/nobody/jira_alerts/storage/passwords/%3Ajira_password%3A?output_mode=json',
+        url=server_uri + '/servicesNS/nobody/splunk-add-on-jira-alerts/storage/passwords/%3Ajira_password%3A?output_mode=json',
         data={
             'password': jira_settings.get('jira_password')
         },
@@ -44,7 +44,7 @@ def update_jira_settings(jira_settings, server_uri, session_key):
         verify=False)
 
 def get_jira_password(server_uri, session_key):
-    password_url = server_uri + '/servicesNS/nobody/jira_alerts/storage/passwords/%3Ajira_password%3A?output_mode=json'
+    password_url = server_uri + '/servicesNS/nobody/splunk-add-on-jira-alerts/storage/passwords/%3Ajira_password%3A?output_mode=json'
 
     try:
         # attempting to retrieve cleartext password, disabling SSL verification for practical reasons
@@ -64,7 +64,7 @@ def get_jira_username(server_uri, session_key):
     return get_jira_action_config(server_uri, session_key).get('jira_username')
 
 def get_jira_action_config(server_uri, session_key):
-    url = server_uri + '/servicesNS/nobody/jira_alerts/alerts/alert_actions/jira?output_mode=json'
+    url = server_uri + '/servicesNS/nobody/splunk-add-on-jira-alerts/alerts/alert_actions/jira?output_mode=json'
     result = requests.get(url=url, headers=splunkd_auth_header(session_key), verify=False)
     return json.loads(result.text)['entry'][0]['content']
 
@@ -72,5 +72,5 @@ def jira_url(jira_settings, endpoint):
     return '%s/rest/api/latest%s' % (jira_settings.get('jira_url'), endpoint)
 
 def update_jira_dialog(content, server_uri, session_key):
-    uri = server_uri + '/servicesNS/nobody/jira_alerts/data/ui/alerts/jira'
+    uri = server_uri + '/servicesNS/nobody/splunk-add-on-jira-alerts/data/ui/alerts/jira'
     requests.post(url=uri, data={'eai:data': content}, headers=splunkd_auth_header(session_key), verify=False)
